@@ -11,7 +11,7 @@ import seaborn as sns
 import pickle 
 
 #import model 
-svm = pickle.load(open('svc.pkl','rb'))
+naive_bayes = pickle.load(open('NaiveBayes_model.pkl','rb'))
 
 #load dataset
 data = pd.read_csv('bank_customer_churn_dataset.csv')
@@ -62,9 +62,9 @@ X = data.drop('churn',axis=1)
 y = data['churn']
 X_train, X_test,y_train,y_test = train_test_split(X,y,test_size=0.20,random_state=42)
 X_train, X_test,y_train,y_test = train_test_split(X_new,y_new,test_size=0.20,random_state=42)
-svm.fit(X_train, y_train)
+naive_bayes.fit(X_train, y_train)
 
-pickle.dump(svm, open('SVC_updated.pkl', 'wb'))
+pickle.dump(naive_bayes, open('NaiveBayes_model.pkl', 'wb'))
 
 
 #Training Data
@@ -102,8 +102,8 @@ user_data = user_report()
 st.subheader('Data Customer')
 st.write(user_data)
 
-user_result = svm.predict(user_data)
-svc_score = accuracy_score(y_test,svm.predict(X_test))
+user_result = naive_bayes.predict(user_data)
+naive_bayes_score = accuracy_score(y_test,naive_bayes.predict(X_test))
 
 models = [train_test_split]
 models_names = ['Naive Bayes']
@@ -118,4 +118,4 @@ else:
 st.title(output)
 st.subheader('Model yang digunakan : \n'+option)
 st.subheader('Accuracy : ')
-st.write(str(svc_score*100)+'%')
+st.write(str(naive_bayes_score*100)+'%')
